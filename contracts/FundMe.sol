@@ -22,7 +22,19 @@ contract FundMe {
             "You need to spend more ETH!"
         );
         addressToAmountFunded[msg.sender] += msg.value;
-        funders.push(msg.sender);
+        bool addressAlreadyFunded = false;
+        for (
+            uint256 funderIndex = 0;
+            funderIndex < funders.length;
+            funderIndex++
+        ) {
+            if (funders[funderIndex] == msg.sender) {
+                addressAlreadyFunded = true;
+            }
+        }
+        if (!addressAlreadyFunded) {
+            funders.push(msg.sender);
+        }
     }
 
     function getVersion() public view returns (uint256) {
